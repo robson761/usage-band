@@ -1,12 +1,22 @@
 # usage-band
 
-A Claude Code mod that shows your current subscription usage in the band above the prompt: the 5-hour limit and the weekly limit, each as its own pie chart, with the percentage used and the time until it resets.
+A Claude Code mod that shows, in the band above the prompt, three pie charts:
 
-- Below 80% the chart is green.
-- From 80% it turns red and pulses.
-- In a terminal, which cannot draw graphics, a coloured pie glyph (○ ◔ ◑ ◕ ●) stands in for the chart.
+- **5-hour limit** and **weekly limit**: how much of your subscription's usage window is used, and the time until it resets.
+- **Context**: how full the current session's context window is, with the tokens used out of the window (for example `157k / 1M`), so you know when to `/compact` or start a fresh session.
 
-The readings come from the rate-limit figures Claude Code receives with every API response, so the band refreshes after each turn. Without a Claude subscription (for example with an API key) there are no such figures and the band shows "no data".
+Each chart is green below 80% and turns red and pulses from 80%. In a terminal, which cannot draw graphics, a coloured pie glyph (○ ◔ ◑ ◕ ●) stands in for the chart.
+
+### Pace forecast
+
+Under each usage limit the band projects your recent tempo forward:
+
+- **lasts until reset** (green): at this pace the window will not fill before it resets;
+- **limit in ~1h 20m** (red): at this pace you will hit the limit in about that time.
+
+The tempo is measured over the last hour for the 5-hour limit and the last 24 hours for the weekly limit, and appears once the readings span at least 5 minutes. The history is kept between sessions.
+
+The readings come from the figures Claude Code receives with every API response, so the band refreshes after each turn. Without a Claude subscription (for example with an API key) there are no usage-limit figures and those charts show "no data"; the context chart still works.
 
 ## Language
 
