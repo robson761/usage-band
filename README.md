@@ -1,31 +1,41 @@
 # usage-band
 
-Mod do Claude Code, który pokazuje w pasku nad polem wpisywania bieżące zużycie limitów subskrypcji: limitu 5-godzinnego i tygodniowego, każde na osobnym wykresie kołowym, z procentem i czasem do resetu.
+A Claude Code mod that shows your current subscription usage in the band above the prompt: the 5-hour limit and the weekly limit, each as its own pie chart, with the percentage used and the time until it resets.
 
-- poniżej 80% wykres jest zielony,
-- od 80% robi się czerwony i pulsuje,
-- w terminalu, gdzie nie ma grafiki, zamiast wykresu jest kolorowy znak koła (○ ◔ ◑ ◕ ●).
+- Below 80% the chart is green.
+- From 80% it turns red and pulses.
+- In a terminal, which cannot draw graphics, a coloured pie glyph (○ ◔ ◑ ◕ ●) stands in for the chart.
 
-Dane pochodzą z odczytów limitów, które Claude Code dostaje z każdą odpowiedzią API, więc pasek odświeża się po każdej turze. Bez subskrypcji (np. z kluczem API) tych danych nie ma i pasek pokazuje „brak danych”.
+The readings come from the rate-limit figures Claude Code receives with every API response, so the band refreshes after each turn. Without a Claude subscription (for example with an API key) there are no such figures and the band shows "no data".
 
-## Instalacja
+## Language
 
-W sesji Claude Code w terminalu:
+The band speaks your operating system's language. It reads `LC_ALL`, `LC_MESSAGES`, `LANG` or `LANGUAGE` first, then the system setting (the Windows display language, or the macOS `AppleLocale`), and falls back to English.
+
+Included languages: English, Polish, German, French, Spanish, Italian, Portuguese, Dutch, Czech, Ukrainian, Russian, Japanese, Korean and Chinese. To add one, add an entry to `STRINGS` in `hooks/register.tsx`.
+
+## Install
+
+At the prompt of a Claude Code session in a terminal:
 
 ```
 /plugin install usage-band --marketplace robson761/usage-band
 ```
 
-Z powłoki:
+From a shell:
 
 ```
 claude plugin install usage-band --marketplace robson761/usage-band
 ```
 
-Na pytanie `Add marketplace?` odpowiedz `y`, a potem wybierz zakres (domyślnie użytkownik). Mod zainstalowany w zakresie użytkownika ładuje się w każdej kolejnej sesji, także w aplikacji desktopowej.
+Answer `y` to `Add marketplace?`, then pick a scope (user is the default). Installed at the user scope, the mod loads in every later session, including the Code tab of the Claude desktop app.
 
-W aplikacji desktopowej, gdzie `/plugin` nie działa: kliknij + obok pola wpisywania, potem Plugins, Add marketplace z `robson761/usage-band`, a następnie Add plugin.
+In the desktop app, where `/plugin` does not run: click + next to the prompt box, then Plugins, Add marketplace with `robson761/usage-band`, then Add plugin.
 
-## Licencja
+## Where it works
+
+Only in Claude Code: the terminal, the Code tab of the desktop app and the VS Code extension. It does not appear in the regular Chat or Cowork tabs or on claude.ai.
+
+## License
 
 MIT

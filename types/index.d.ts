@@ -2,6 +2,6 @@ export type Limit = { kind: string; percentUsed: number; resetsAt?: string }
 
 declare module 'claude-code' {
   interface PluginState {
-    'usage-band': { limits: Limit[] | null }
+    'usage-band': { limits: Limit[] | null; lang: string | null }
   }
 }
