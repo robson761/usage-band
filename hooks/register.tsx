@@ -179,15 +179,26 @@ function addSamples(prev: Samples, list: readonly Limit[], now: number): Samples
 
 type Pace = { kind: 'ok' } | { kind: 'hit'; inMs: number } | null
 
-// Projects the recent tempo forward: will the window fill before it resets?
+const WINDOW_MS: Record<string, number> = {
+  five_hour: 5 * 60 * 60 * 1000,
+  seven_day: 7 * 24 * 60 * 60 * 1000,
+}
+
+// Projects the tempo forward: will the window fill before it resets? Recent
+// readings give the tempo; until they span a few minutes, the average since
+// the window began (its reset less its length, at 0%) stands in.
 function forecast(l: Limit, history: Samples[string] | undefined, now: number): Pace {
-  if (!history || history.points.length === 0) return null
+  const resetAt = l.resetsAt ? Date.parse(l.resetsAt) : NaN
   const lookback = LOOKBACK_MS[l.kind] ?? 0
   const cutoff = now - lookback
-  const base = [...history.points].reverse().find(p => p.at <= cutoff) ?? history.points[0]!
+  const points = history?.points ?? []
+  let base = [...points].reverse().find(p => p.at <= cutoff) ?? points[0]
+  if ((!base || now - base.at < MIN_SPAN_MS) && !Number.isNaN(resetAt) && WINDOW_MS[l.kind]) {
+    base = { at: resetAt - WINDOW_MS[l.kind]!, pct: 0 }
+  }
+  if (!base) return null
   const span = now - base.at
   const used = l.percentUsed - base.pct
-  const resetAt = l.resetsAt ? Date.parse(l.resetsAt) : NaN
   if (span < MIN_SPAN_MS) return null
   if (used <= 0) return Number.isNaN(resetAt) ? null : { kind: 'ok' }
   const inMs = ((100 - l.percentUsed) / used) * span

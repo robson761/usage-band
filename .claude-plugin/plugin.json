@@ -1,1 +1,1 @@
-{ "name": "usage-band", "version": "0.3.0", "description": "Pie charts of your Claude 5-hour and weekly usage limits, context window and pace forecast above the prompt, in your system language", "types": "./types/index.d.ts" }
+{ "name": "usage-band", "version": "0.3.1", "description": "Pie charts of your Claude 5-hour and weekly usage limits, context window and pace forecast above the prompt, in your system language", "types": "./types/index.d.ts" }

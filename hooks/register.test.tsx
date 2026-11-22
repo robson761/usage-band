@@ -52,6 +52,25 @@ test('context and pace show, in the system language', async ($, on) => {
   }
 })
 
+test('a fresh start forecasts from the window average', async ($, on) => {
+  // 5h window began 2h ago (resets in 3h) and is 60% used: 30%/h, 40% left,
+  // so the limit comes in about 1h 20m, before the reset.
+  const resetsAt = new Date(T0 + 3 * 60 * MIN).toISOString()
+  on('clock.now', () => ({ value: T0 }))
+  on('env.get', (_, e) => ({ value: e.name === 'LANG' ? 'en_US.UTF-8' : undefined }))
+  on('store.get', () => ({ value: undefined }))
+  on('store.set', () => ({ value: undefined }))
+  on('session.usage', () => ({
+    value: { startedAt: T0, context: CONTEXT, rateLimits: [{ kind: 'five_hour', percentUsed: 60, resetsAt }] },
+  }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  const ui = await $.ui.mount({ ...BAND, surface: 'desktop' })
+  expect((await ui.find({ type: 'Text', text: /limit in/ }))?.text).toBe('limit in ~1h 20m')
+  await ui.unmount()
+})
+
 for (const [culture, expected] of [['de-DE', 'Wochenlimit'], ['xx-XX', 'Weekly limit']] as const) {
   test(`Windows display language ${culture} labels the band "${expected}"`, async ($, on) => {
     on('clock.now', () => ({ value: T0 }))

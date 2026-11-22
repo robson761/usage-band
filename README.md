@@ -14,7 +14,7 @@ Under each usage limit the band projects your recent tempo forward:
 - **lasts until reset** (green): at this pace the window will not fill before it resets;
 - **limit in ~1h 20m** (red): at this pace you will hit the limit in about that time.
 
-The tempo is measured over the last hour for the 5-hour limit and the last 24 hours for the weekly limit, and appears once the readings span at least 5 minutes. The history is kept between sessions.
+The tempo is measured over the last hour for the 5-hour limit and the last 24 hours for the weekly limit. Until the readings span at least 5 minutes, the average tempo since the window began is used instead, so the forecast shows right away. The history is kept between sessions.
 
 The readings come from the figures Claude Code receives with every API response, so the band refreshes after each turn. Without a Claude subscription (for example with an API key) there are no usage-limit figures and those charts show "no data"; the context chart still works.
 
