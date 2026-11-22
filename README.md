@@ -36,6 +36,10 @@ In the desktop app, where `/plugin` does not run: click + next to the prompt box
 
 Only in Claude Code: the terminal, the Code tab of the desktop app and the VS Code extension. It does not appear in the regular Chat or Cowork tabs or on claude.ai.
 
+## Credits
+
+This mod and its documentation were created with the help of AI ([Claude](https://claude.ai) by Anthropic).
+
 ## License
 
 MIT
